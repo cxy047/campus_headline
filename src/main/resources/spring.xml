@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        https://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 加载properties -->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
+    <!-- 扫描 service + aspect 包 -->
+    <context:component-scan base-package="com.chenxy.service,com.chenxy.aspect"/>
+
+    <!-- ==================== Druid数据源 ==================== -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!-- ==================== MyBatis-Plus 分页插件 ==================== -->
+    <bean id="mybatisPlusInterceptor" class="com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor">
+        <property name="interceptors">
+            <list>
+                <!-- 分页插件 -->
+                <bean class="com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor">
+                    <!-- 数据库类型自动识别，也可手动指定 -->
+                    <property name="dbType" value="MYSQL"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- ==================== MyBatis-Plus SqlSessionFactory ==================== -->
+    <!-- 使用 MyBatis-Plus 的工厂 Bean（继承自 mybatis-spring 的 SqlSessionFactoryBean） -->
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!-- mapper 映射文件位置 -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <!-- MyBatis-Plus 全局配置 -->
+        <property name="globalConfig">
+            <bean class="com.baomidou.mybatisplus.core.config.GlobalConfig">
+                <property name="dbConfig">
+                    <bean class="com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig">
+                        <property name="idType" value="AUTO"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <!-- 注册 MyBatis-Plus 插件（分页等） -->
+        <property name="plugins">
+            <array>
+                <ref bean="mybatisPlusInterceptor"/>
+            </array>
+        </property>
+    </bean>
+
+    <!-- ==================== Mapper 扫描（用 mybatis-spring 原生扫描器） ==================== -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.chenxy.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <!-- ==================== 声明式事务 ==================== -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- 开启 AOP 注解驱动（@Aspect 等切面自动生效） -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+</beans>

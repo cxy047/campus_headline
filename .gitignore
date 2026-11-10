@@ -1,0 +1,83 @@
+# ============= Git 应该跟踪的 =============
+# src/       ✅ 源码
+# pom.xml    ✅ Maven 配置
+# Query.sql  ✅ 数据库初始化脚本
+# README.md  ✅ 项目说明
+# test/      ✅ 测试资产
+# .gitignore ✅ 本文件
+
+# ============= 应该忽略的 =============
+
+# 报告/简历（不进 Git，面试只看代码）
+课程设计报告/
+*.docx
+*.doc
+*.pdf
+*.pptx
+*.ppt
+*.zip
+*.rar
+*.7z
+简历*
+陈鑫怡*
+闽南科技*
+开题报告*
+选题说明*
+校园头条部署文档*
+
+# 提交打包目录（是代码副本，不进 Git）
+提交打包/
+
+# WAR 构建产物
+*.war
+
+# IDEA 个人配置
+.idea/
+*.iml
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# 项目部署容器
+tomcat/
+
+# 临时文件
+.uploads/
+
+# Maven 构建产物
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/dbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Gradle
+.gradle/
+build/
+
+# Node（如果有）
+node_modules/

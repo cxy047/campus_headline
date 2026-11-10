@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 扫描controller + interceptor 包 -->
+    <context:component-scan base-package="com.chenxy.controller,com.chenxy.interceptor"/>
+
+    <!-- 开启 mvc 注解驱动 -->
+    <mvc:annotation-driven/>
+
+    <!-- 静态资源放行 -->
+    <mvc:resources mapping="/js/**" location="/js/"/>
+    <mvc:resources mapping="/css/**" location="/css/"/>
+    <mvc:resources mapping="/images/**" location="/images/"/>
+    <mvc:resources mapping="/static/**" location="/static/"/>
+    <!-- 上传文件：映射到用户主目录外部（避免打包 WAR 丢失） -->
+    <mvc:resources mapping="/upload/**"
+                   location="file:${user.home}/campus_upload/"/>
+
+    <!-- ==================== 拦截器配置 ==================== -->
+    <mvc:interceptors>
+        <!-- 登录拦截器：保护后台、素材、互动与个人中心路径 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/news/**"/>
+            <mvc:mapping path="/material/**"/>
+            <mvc:mapping path="/comment/add"/>
+            <mvc:mapping path="/comment/delete"/>
+            <mvc:mapping path="/like/**"/>
+            <mvc:mapping path="/topic/add"/>
+            <mvc:mapping path="/topic/manage"/>
+            <mvc:mapping path="/topic/edit"/>
+            <mvc:mapping path="/topic/delete"/>
+            <mvc:mapping path="/topic/auditPass"/>
+            <mvc:mapping path="/topic/auditReject"/>
+            <mvc:mapping path="/video/manage"/>
+            <mvc:mapping path="/video/add"/>
+            <mvc:mapping path="/video/edit"/>
+            <mvc:mapping path="/video/delete"/>
+            <mvc:mapping path="/video/auditPass"/>
+            <mvc:mapping path="/video/auditReject"/>
+            <mvc:mapping path="/user/profile"/>
+            <mvc:mapping path="/user/profile/**"/>
+            <mvc:exclude-mapping path="/news/detail"/>
+            <bean class="com.chenxy.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+        <!-- 角色拦截器：保护写操作（add/update/delete），需要admin角色 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/news/add"/>
+            <mvc:mapping path="/news/update"/>
+            <mvc:mapping path="/news/delete"/>
+            <mvc:mapping path="/news/toAdd"/>
+            <mvc:mapping path="/news/toUpdate"/>
+            <mvc:mapping path="/news/audit"/>
+            <mvc:mapping path="/news/publish"/>
+            <mvc:mapping path="/news/draft"/>
+            <mvc:mapping path="/video/manage"/>
+            <mvc:mapping path="/video/add"/>
+            <mvc:mapping path="/video/edit"/>
+            <mvc:mapping path="/video/delete"/>
+            <mvc:mapping path="/video/auditPass"/>
+            <mvc:mapping path="/video/auditReject"/>
+            <mvc:mapping path="/topic/manage"/>
+            <mvc:mapping path="/topic/edit"/>
+            <mvc:mapping path="/topic/delete"/>
+            <mvc:mapping path="/topic/auditPass"/>
+            <mvc:mapping path="/topic/auditReject"/>
+            <mvc:mapping path="/material/**"/>
+            <bean class="com.chenxy.interceptor.RoleInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- ==================== 文件上传解析器（Spring 6 + Jakarta EE 兼容） ==================== -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
+
+    <!-- ==================== JSP 视图解析器 ==================== -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="order" value="1"/>
+    </bean>
+
+</beans>
