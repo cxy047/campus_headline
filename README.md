@@ -78,7 +78,8 @@
 # 1. 创建 MySQL 数据库，执行 Query.sql 初始化表结构
 mysql -u root -p < Query.sql
 
-# 2. 修改 jdbc.properties 数据库连接信息
+# 2. 复制配置模板并填写数据库连接信息
+#    cp src/main/resources/jdbc.properties.example src/main/resources/jdbc.properties
 
 # 3. Maven 打包
 mvn clean package

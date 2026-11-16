@@ -8,6 +8,9 @@
 
 # ============= 应该忽略的 =============
 
+# 数据库连接配置（含真实密码，仓库内只保留 jdbc.properties.example）
+src/main/resources/jdbc.properties
+
 # 报告/简历（不进 Git，面试只看代码）
 课程设计报告/
 *.docx
