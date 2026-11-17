@@ -44,12 +44,12 @@
 
 ### 缺陷速览
 
-| 严重度 | 缺陷摘要 | 根因定位 |
-|--------|----------|----------|
-| **S2** | RoleInterceptor 路径配置错误，新闻审核接口完全不受保护 | `springmvc.xml` 写的 `/news/audit` vs Controller 实际 `/news/auditPass` |
-| **S2** | 评论删除缺少 RoleInterceptor 保护，任何登录用户可删任意评论 | springmvc.xml 未配置 `/comment/delete` + CommentController 无身份校验 |
-| **S3** | 写操作用 GET 请求，CSRF 风险 | Controller 大量 @GetMapping 写操作 |
-| **S3** | `file:` 路径前缀 Tomcat 10.1 下 404 | `location="file:${user.home}/campus_upload/"` 需改为 `file:/` |
+| 严重度 | 缺陷摘要 | 根因定位 | 状态 |
+|--------|----------|----------|------|
+| **S2** | RoleInterceptor 路径配置错误，新闻审核接口完全不受保护 | `springmvc.xml` 写的 `/news/audit` vs Controller 实际 `/news/auditPass` | 已修复 |
+| **S2** | 评论删除缺少 RoleInterceptor 保护，任何登录用户可删任意评论 | springmvc.xml 未配置 `/comment/delete` + CommentController 无身份校验 | 已修复 |
+| **S3** | 写操作用 GET 请求，CSRF 风险 | Controller 大量 @GetMapping 写操作 | 方案已定，待实施 |
+| **S3** | `file:` 路径前缀 Tomcat 10.1 下 404 | `location="file:${user.home}/campus_upload/"` 需改为 `file:/` | 已修复 |
 
 **缺陷在源码中的证据**：
 
@@ -75,7 +75,7 @@
 | 通过（修复前） | 53 |
 | 失败（修复前） | 5 |
 | 缺陷总数 | 4（**S2 权限绕过 × 2** + S3 × 2） |
-| 修复率 | **100%** |
+| 修复率 | **75%**（3 个已修复并回归通过，1 个方案已定待实施） |
 | 覆盖层级 | 页面功能 + Postman 接口 + SQL 数据校验 |
 | 覆盖平台 | Tomcat 9 / 10.1 双版本验证 |
 
