@@ -11,7 +11,7 @@
 # 数据库连接配置（含真实密码，仓库内只保留 jdbc.properties.example）
 src/main/resources/jdbc.properties
 
-# 报告/简历（不进 Git，面试只看代码）
+# 报告与本地产物（不进 Git）
 课程设计报告/
 *.docx
 *.doc
@@ -61,6 +61,9 @@ tomcat/
 
 # 临时文件
 .uploads/
+
+# 本地个人笔记（不进 Git）
+/local-notes/
 
 # Maven 构建产物
 target/

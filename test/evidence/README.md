@@ -9,11 +9,10 @@
 | [BUG-001-拦截器路径配置.md](./BUG-001-拦截器路径配置.md) | BUG-001 / TC-B10 | RoleInterceptor 路径修复前后配置片段 + 验证步骤 | `src/main/resources/springmvc.xml`、`NewsController.java` |
 | [BUG-002-评论删除身份校验.md](./BUG-002-评论删除身份校验.md) | BUG-002 / TC-E05、TC-H05 | 评论删除身份校验代码 + 验证步骤 | `CommentController.java`、`CommentServiceImpl.java` |
 | [screenshots/](./screenshots/) | 全部缺陷与关键用例 | 运行期截图（待补，见下） | 本地 Tomcat + Postman + MySQL |
-| [截图操作指南.md](./截图操作指南.md) | 全部 15 张截图 | 逐张的前置准备、操作步骤、SQL、取证要求与判定标准 | 按本指南操作后截图 |
 
-## 二、待补截图清单（需要本机运行后手动截图）
+## 二、待补截图清单（运行期证据）
 
-请把下面的截图放入 `test/evidence/screenshots/`，文件名保持一致，方便文档直接引用。
+运行期截图统一存放于 `test/evidence/screenshots/`，文件名与下表一致，便于文档直接引用。
 
 ### 2.1 缺陷复现与修复验证
 

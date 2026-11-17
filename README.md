@@ -65,7 +65,7 @@
 <mvc:mapping path="/news/auditReject"/>
 ```
 
-完整修复前后对照与验证步骤见 [`test/evidence/`](./test/evidence/)，运行期截图补录清单见 [`test/evidence/README.md`](./test/evidence/README.md)。
+完整修复前后对照与验证步骤见 [`test/evidence/`](./test/evidence/)，运行期证据清单见 [`test/evidence/README.md`](./test/evidence/README.md)。
 
 ## ✅ 测试指标
 
