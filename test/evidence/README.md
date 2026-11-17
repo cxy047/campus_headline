@@ -18,8 +18,8 @@
 | 文件 | 对应缺陷 / 用例 | 截图内容与证明点 |
 |------|------|------|
 | [BUG-001-01-postman-普通用户审核.png](./screenshots/BUG-001-01-postman-普通用户审核.png) | BUG-001 / TC-B10 | 普通用户身份 GET `/news/auditPass?id=7`，响应 403 Forbidden，页面提示「无权访问：仅管理员可执行此操作」，越权审核被 RoleInterceptor 拦截 |
-| [BUG-001-02-mysql-新闻状态-修复前.png](./screenshots/BUG-001-02-mysql-新闻状态-修复前.png) | BUG-001 | Navicat 执行 `UPDATE news SET status=0 WHERE id=7` 后查询，id=7 的 status=0（草稿），作为复现前置基线 |
-| [BUG-001-02-mysql-新闻状态-修复后.png](./screenshots/BUG-001-02-mysql-新闻状态-修复后.png) | BUG-001 | 同一记录 status 查询结果为 2（已审核），与修复前基线对照 |
+| [BUG-001-02-mysql-越权请求被拦-status仍为0.png](./screenshots/BUG-001-02-mysql-越权请求被拦-status仍为0.png) | BUG-001 / TC-B10 | 普通用户越权调用 `/news/auditPass?id=7` 被 403 拦截后，Navicat 查询 news 表 id=7 的 status 仍为 0（草稿），数据未被改动 |
+| [BUG-001-02-mysql-管理员审核生效-status为2.png](./screenshots/BUG-001-02-mysql-管理员审核生效-status为2.png) | BUG-001 / 回归 | 管理员审核同一新闻后，id=7 的 status 变为 2（已审核），证明拦截器修复未影响管理员正常审核流程 |
 | [BUG-002-01-postman-删除他人评论.png](./screenshots/BUG-002-01-postman-删除他人评论.png) | BUG-002 / TC-H05 | student 身份 GET `/comment/delete?id=19&targetId=4&targetType=news`，响应 302、`Location: /detail?id=4#comments`，请求未真正删除评论 |
 | [BUG-002-02-sql-删除后仍存在.png](./screenshots/BUG-002-02-sql-删除后仍存在.png) | BUG-002 | 请求执行后查询 comment 表，id=19 仍存在且 `user_id=4`，他人（zzzz）的评论未被删除 |
 | [BUG-003-01-f12-get写操作.png](./screenshots/BUG-003-01-f12-get写操作.png) | BUG-003 / TC-H01 | F12 Network：`/like/toggle?targetId=5&targetType=news` 的 Request Method=GET、Status Code=302，证明写操作仍以 GET 暴露 |
