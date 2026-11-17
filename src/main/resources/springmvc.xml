@@ -24,7 +24,7 @@
     <mvc:resources mapping="/static/**" location="/static/"/>
     <!-- 上传文件：映射到用户主目录外部（避免打包 WAR 丢失） -->
     <mvc:resources mapping="/upload/**"
-                   location="file:${user.home}/campus_upload/"/>
+                   location="file:/${user.home}/campus_upload/"/>
 
     <!-- ==================== 拦截器配置 ==================== -->
     <mvc:interceptors>
@@ -59,9 +59,9 @@
             <mvc:mapping path="/news/delete"/>
             <mvc:mapping path="/news/toAdd"/>
             <mvc:mapping path="/news/toUpdate"/>
-            <mvc:mapping path="/news/audit"/>
-            <mvc:mapping path="/news/publish"/>
-            <mvc:mapping path="/news/draft"/>
+            <mvc:mapping path="/news/submitAudit"/>
+            <mvc:mapping path="/news/auditPass"/>
+            <mvc:mapping path="/news/auditReject"/>
             <mvc:mapping path="/video/manage"/>
             <mvc:mapping path="/video/add"/>
             <mvc:mapping path="/video/edit"/>
