@@ -51,14 +51,21 @@
 | **S3** | 写操作用 GET 请求，CSRF 风险 | Controller 大量 @GetMapping 写操作 |
 | **S3** | `file:` 路径前缀 Tomcat 10.1 下 404 | `location="file:${user.home}/campus_upload/"` 需改为 `file:/` |
 
-**缺陷在源码中的证据（可复述）**：
+**缺陷在源码中的证据**：
 
 ```xml
-<!-- springmvc.xml 第 62-64 行：RoleInterceptor 配置错误位置 -->
-<mvc:mapping path="/news/audit"/>    <!-- 错误！Controller 里是 /news/auditPass -->
-<mvc:mapping path="/news/publish"/>   <!-- 错误！Controller 里是 /news/submitAudit -->
-<mvc:mapping path="/news/draft"/>     <!-- 错误！Controller 里根本没有这个路径 -->
+<!-- 修复前：springmvc.xml 第 62-64 行，三个路径在 Controller 中均不存在 -->
+<mvc:mapping path="/news/audit"/>
+<mvc:mapping path="/news/publish"/>
+<mvc:mapping path="/news/draft"/>
+
+<!-- 修复后：与 NewsController 实际映射一致 -->
+<mvc:mapping path="/news/submitAudit"/>
+<mvc:mapping path="/news/auditPass"/>
+<mvc:mapping path="/news/auditReject"/>
 ```
+
+完整修复前后对照与验证步骤见 [`test/evidence/`](./test/evidence/)，运行期截图补录清单见 [`test/evidence/README.md`](./test/evidence/README.md)。
 
 ## ✅ 测试指标
 
@@ -111,6 +118,7 @@ campus_headline/
 ├── test/                     # 📌 测试资产目录
 │   ├── 测试用例表.md
 │   ├── 缺陷清单.md
-│   └── 测试总结报告.md
+│   ├── 测试总结报告.md
+│   └── evidence/             # 缺陷修复证据与截图
 └── README.md
 ```
