@@ -53,6 +53,8 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- 不配置 welcome-file：/ 由 IndexController.root() 重定向到 /index，
-         直接静态渲染 index.jsp 会跳过 Controller 导致页面数据为空 -->
+    <!-- 未配置 welcome-file，Tomcat 会使用全局 conf/web.xml 的默认列表
+         （index.html / index.htm / index.jsp），导致访问 "/" 时直接渲染根目录的
+         index.jsp 而跳过 IndexController。因此 index.jsp 顶部带有 page 为空的守卫，
+         此时重定向到 /index 由 Controller 加载数据 -->
 </web-app>

@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%-- 直接访问根路径时 Tomcat 的 welcome-file 会绕过 IndexController 直接渲染本 JSP，
+     此时没有 page 数据，跳转到 Controller 统一加载新闻列表、分类和统计数量 --%>
+<c:if test="${empty page}"><c:redirect url="/index"/></c:if>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
